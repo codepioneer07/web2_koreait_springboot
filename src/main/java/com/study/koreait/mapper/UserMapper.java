@@ -12,5 +12,7 @@ public interface UserMapper {
     // 중복 확인용
     Optional<Users> getUserByUsername(String username);
     Optional<Users> getUserByEmail(String email);
+    Optional<Users> getUserById(String userId);
+    Optional<Users> updateEmailVerified(String userId);
 
 }

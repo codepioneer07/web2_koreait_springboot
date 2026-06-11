@@ -5,6 +5,7 @@ import com.study.koreait.dto.req.SignUpReqDto;
 import com.study.koreait.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -44,6 +46,17 @@ public class AuthController {
     @GetMapping("/me-2")
     public ResponseEntity<?> meTwo(@AuthenticationPrincipal String userId) {
         return ResponseEntity.ok(userId);
+    }
+
+    // 리다이렉트된 요청을 받아주는 콜백 컨트롤러메서드
+    // localhost:8080/oauth2/authorization/google
+    @GetMapping("/oauth2")
+    public ResponseEntity<?> oAuth2SignIn (
+            @RequestParam String provider,
+            @RequestParam String providerUserId,
+            @RequestParam String email
+    ) {
+        return ResponseEntity.ok(authService.oAuth2SignIn(provider, providerUserId, email));
     }
 
 
